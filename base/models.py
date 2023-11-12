@@ -77,7 +77,7 @@ class BaseSurvey(models.Model):
     Each survey has a parent model
     """
 
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
     is_ongoing = models.BooleanField(default=False)

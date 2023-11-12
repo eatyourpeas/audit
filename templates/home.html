@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="hero">
-    <div class="hero-head">
-        Icon
-    </div>
+<section class="hero is-primary">
     <div class="hero-body">
         <p class="title">
             Base
@@ -12,10 +9,55 @@
             Surveys for medics
         </p>
     </div>
-    <div class="hero-foot">
+</section>
+<div class="card">
+    <div class="card-content has-text-link">
         <li>Design your own questions</li>
         <li>Collect all the answers</li>
         <li>See the results</li>
     </div>
-  </section>
+    <div class="box">
+        <div class="field is-horizontal is-grouped">
+            <div class="field-label is-normal">
+              <label class="label">Try it out:</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded">
+                    <input 
+                        name = "survey-title"
+                        class="input is-primary" 
+                        type="text" 
+                        placeholder="enter the name of the survey you want to create... (you can change this later if you need)"
+                        _="on keyup if my.value is not empty remove @disabled from #create-survey-button else add @disabled to #create-survey-button end"
+                    />
+                </p>
+            </div>
+        </div>
+        <p class="control">
+            {% url 'create-base-survey' as hx_post %}
+            <div 
+                id="create-survey-button"
+                class="button is-primary"
+                disabled
+                hx-post="/create-base-survey"
+                hx-trigger="click"
+                hx-include="[name='survey-title']"
+                hx-target="#survey-table"
+                hx-swap="innerHTML"
+            >Create! {{hx_post}}</div>
+        </p>
+    </div>
+</div>
+{% if surveys %}
+    <div class="container" id="survey-table">
+        {% include 'templates/survey-table.html' with surveys=surveys %}
+    </div>
+{% else %}
+<div class="container">
+    <div class="notification is-primary">
+        There are no surveys currently...
+    </div>
+</div>
+{% endif %}
 {% endblock %}
