@@ -22,8 +22,32 @@ chmod +x s/start
 
 This is a one off
 
+***Important*** Create a .env file in the env folder, and add this file to .gitignore.
+
+Add these credentials:
+
+```env
+# CADDY (WEB SERVER & HTTPS)
+SITE_DOMAIN="base-audit.localhost" # this should also be in DJANGO_ALLOWED_HOSTS and DJANGO_CSRF_TRUSTED_ORIGINS
+LETSENCRYPT_EMAIL_ADDRESS=************
+LETSENCRYPT_ENDPOINT=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt staging endpoint for testing (https://acme-staging-v02.api.letsencrypt.org/directory) so as not to hit rate limits.
+TLS_SOURCE="internal" # or use "acme" for LetsEncrypt
+ 
+# DJANGO
+DEBUG="True" # Set DEBUG=True for Local dev and Development, not Staging or Live
+DJANGO_ALLOWED_HOSTS="localhost,127.0.0.1,base-audit.localhost"
+DJANGO_CSRF_TRUSTED_ORIGINS=https://localhost:8000,https://127.0.0.1,https://base-audit.localhost
+DJANGO_SECRET_KEY=******************
+```
+
 Then:
 
 ```console
-docker-start
+s/start
+```
+
+In the browser navigate to:
+
+```console
+https://base-audit.localhost/base
 ```
