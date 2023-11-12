@@ -1,0 +1,36 @@
+version: "3.12"
+
+x-global-environment: &global
+  env_file:
+    - envs/.env # env file - NOT committed to Git
+
+services:
+  caddy:
+    <<: *global # this will inherit all the envs from x-global-environment
+    depends_on:
+      - django
+    image: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - caddy-data:/data/
+      - caddy-data:/config/
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./staticdocs:/srv/staticdocs
+
+  # Django web application
+  django: &django
+    <<: *global # this will inherit all the envs from x-global-environment
+    build: .
+    volumes:
+      - .:/app/
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8002"
+    restart: always
+
+volumes:
+  caddy-data:
