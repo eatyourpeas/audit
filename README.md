@@ -12,6 +12,8 @@ This survey platform therefore is aimed to allow the user to create the question
 
 The main elements to a survey will be the questions and the answers, so there will need to be models for each of these entities. There will need to be models too for users and potentially reports.
 
+![image](static/schema.png)
+
 It is currently a simple django project (4.2) in sqlite3 that is dockerised and runs on python 3.12 as the current latest versions.
 
 To get up and running, clone the repository and then:
