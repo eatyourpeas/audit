@@ -9,11 +9,17 @@ class BaseAudit(models.Model):
     is_ongoing = models.BooleanField(default=False)
 
 
-class BaseAuditModule(models.Model):
+class BaseAuditSection(models.Model):
     name = models.CharField(max_length=100)
+    audit = models.ForeignKey(to=BaseAudit, on_delete=models.CASCADE)
 
 class BaseAuditQuestion(models.Model):
     text = models.CharField(max_length=100)
     help = models.CharField(max_length=100)
     reference = models.CharField(max_length=100)
     audit_reference = models.CharField(max_length=100)
+
+    audit_section = models.ForeignKey(to=BaseAuditSection, on_delete=models.CASCADE)
+
+class BaseAuditResponse(models.Model):
+    text = models.CharField(max_length=100)
