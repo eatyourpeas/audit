@@ -1,10 +1,11 @@
 <div class="container">
     <div class="notification is-primary">
+        <h5 class="subtitle">My Surveys</h5>
         {% if surveys %}
-            <table class="table">
+            <table class="table is-fullwidth">
                 <thead>
                     <th>Title</th>
-                    <th>Action</th>
+                    <th class="has-text-right">Action</th>
                 </thead>
                 <tbody>
                     {% for survey in surveys %}
@@ -12,13 +13,13 @@
                         <td>
                             {{survey.title}}
                         </td>
-                        <td>
+                        <td style="float: right;">
                             <div class="buttons are-small">
-                                <button class="button is-info">
+                                <a class="button is-info" href="{% url 'edit_base_survey' survey_id=survey.pk %}">
                                     <span class="icon is-small">
                                         <i class="far fa-edit"></i>
                                     </span>
-                                </button>
+                                </a>
                                 {% url 'delete_base_survey' survey_id=survey.pk as hx_post %}
                                 <button 
                                     class="button is-danger"
