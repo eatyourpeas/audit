@@ -1,15 +1,45 @@
-<table class="table">
-    <thead>
-        <th>Title</th>
-        <th>Action</th>
-    </thead>
-    <tbody>
-        {% for survey in surveys %}
-        <tr>
-            <td>
-                {{survey.title}}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container">
+    <div class="notification is-primary">
+        {% if surveys %}
+            <table class="table">
+                <thead>
+                    <th>Title</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    {% for survey in surveys %}
+                    <tr>
+                        <td>
+                            {{survey.title}}
+                        </td>
+                        <td>
+                            <div class="buttons are-small">
+                                <button class="button is-info">
+                                    <span class="icon is-small">
+                                        <i class="far fa-edit"></i>
+                                    </span>
+                                </button>
+                                {% url 'delete_base_survey' survey_id=survey.pk as hx_post %}
+                                <button 
+                                    class="button is-danger"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-post="{{hx_post}}"
+                                    hx-trigger='click'
+                                    hx-target='#surveylist'
+                                    hx-swap='innerHTML'
+                                >
+                                    <span class="icon is-small">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            There are no surveys currently...
+        {% endif %}
+    </div>
+</div>

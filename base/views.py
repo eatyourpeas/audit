@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render
 
 from .models import BaseSurvey
@@ -19,10 +20,21 @@ def create_base_survey(request):
     """
     POST request to create new survey
     """
-    print("hello")
     survey_title = request.POST.get("survey-title")
-    print(survey_title)
-    context = {"surveys": None}
+    BaseSurvey.objects.create(
+        title=survey_title,
+        is_ongoing=False)
+    context = {"surveys": BaseSurvey.objects.all()}
     return render(
-        request=request, template_name="templates/survey-title.html", context=context
+        request=request, template_name="survey-table.html", context=context
+    )
+
+def delete_base_survey(request, survey_id):
+    """
+    POST request to delete survey
+    """
+    BaseSurvey.objects.filter(pk=survey_id).delete()
+    context = {"surveys": BaseSurvey.objects.all()}
+    return render(
+        request=request, template_name="survey-table.html", context=context
     )

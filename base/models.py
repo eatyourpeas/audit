@@ -78,8 +78,8 @@ class BaseSurvey(models.Model):
     """
 
     title = models.CharField(max_length=100)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True, default=None)
+    end_date = models.DateField(null=True, blank=True, default=None)
     is_ongoing = models.BooleanField(default=False)
 
     class Meta:

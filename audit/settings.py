@@ -32,13 +32,23 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") + [
     "https://127.0.0.1",
     "localhost",
     "0.0.0.0",
+    "base-audit.localhost"
 ]
 CSRF_TRUSTED_DOMAINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") + [
     "https://127.0.0.1",
     "https://localhost",
     "https://0.0.0.0",
+    "https://base-audit.localhost"
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://base-audit.localhost"
+]
+CSRF_ALLOWED_ORIGINS = [
+    "https://base-audit.localhost"
+]
+
+CORS_ORIGINS_WHITELIST = ["https://base-audit.localhost"]
 
 # Application definition
 
@@ -67,14 +77,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "audit.urls"
 
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, "templates/"),
-]
+# TEMPLATE_DIRS = [
+#     os.path.join(BASE_DIR, "templates"),
+# ]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [f"{BASE_DIR}/templates/"],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
