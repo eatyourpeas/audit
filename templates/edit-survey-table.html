@@ -1,1 +1,30 @@
-<h1 class="title">Editing {{survey.title}}</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column">
+            <div class="box is-primary has-text-centered is-primary">
+                <code>Editing {{survey.title}}</code>
+            </div>
+            <form class="form" method="post">
+                {% csrf_token %}
+                <div class="field is-horizontal">
+                    <div class="field is-expanded">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input name="section_title" class="input is-primary" type="text" placeholder="Enter the title of the first section of your survey..."/>
+                            </div>
+                            <div class="control">
+                                <input class="button is-primary" type="submit" value="Add section">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="column is-one-third">
+            {{form.as_p}}
+        </div>
+    </div>
+</div>
+{% endblock %}

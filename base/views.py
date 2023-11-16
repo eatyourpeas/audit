@@ -1,11 +1,7 @@
-from django.utils import timezone
 from django.shortcuts import render
 
-from .models import BaseSurvey
-
-# Create your views here.
-
-from django.http import HttpResponse
+from .models import BaseSurvey, Section
+from .forms import SectionForm
 
 
 def index(request):
@@ -43,7 +39,19 @@ def edit_base_survey(request, survey_id):
     """
     GET request to edit survey page
     """
-    context = {"survey": BaseSurvey.objects.filter(pk=survey_id).get()}
+    if request.method == 'POST':
+        form = SectionForm(request.POST)
+        section_title = request.POST.get('section_title')
+        if form.is_valid():
+            base_survey = BaseSurvey.objects.filter(pk=survey_id).get()
+            form.save()
+    else:
+        form = SectionForm()
+    context = {
+        "survey": BaseSurvey.objects.filter(pk=survey_id).get(),
+        "form": form
+    }
     return render(
         request=request, template_name="edit-survey-table.html", context=context
     )
+
